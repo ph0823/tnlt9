@@ -1,0 +1,18 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "type": "dragdrop",
+      "question": "Kéo thả các khối lệnh Scratch theo đúng thứ tự để tính tổng 2 số nguyên a và b",
+      "image": "images/h1Tongab.png",
+
+      "options": [
+        { "id": "o1", "img": "images/set_result.png", "label": "Đặt biến result = 0" },
+        { "id": "o2", "img": "images/set_a_plus_b.png", "label": "Đặt result = a + b" },
+        { "id": "o3", "img": "images/show_variable.png", "label": "Hiện biến result" }
+      ],
+
+      "answer": ["o2", "o3"]
+    }
+  ]
+}
