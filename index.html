@@ -13,12 +13,37 @@
   .option { width:140px; height:80px; display:flex; align-items:center; justify-content:center; border-radius:8px; background:#fff; border:1px solid #e1e9f4; cursor:grab; padding:6px; }
   .option img { max-width:100%; max-height:72px; pointer-events:none; }
 
-  .dropzones { display:flex; gap:10px; flex-wrap:wrap; }
+  /* Dropzones theo hàng dọc */
+  .dropzones { 
+    display:flex;
+    flex-direction: column;   /* hàng dọc */
+    gap:12px;
+  }
   .slot {
-    width:140px; height:90px; border:2px dashed #bcd1ef; border-radius:10px;
-    display:flex; align-items:center; justify-content:center; background:#f7fbff;
+    width:100%; 
+    height:90px; 
+    border:2px dashed #bcd1ef; 
+    border-radius:10px;
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    background:#f7fbff;
   }
   .slot.hover { border-color:#4b8af7; background:#eef5ff; }
+
+  /* Khối trong dropzone phải giãn hết chiều rộng */
+  .option-in-slot {
+    width:100% !important;
+    height:80px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:6px;
+  }
+  .option-in-slot img {
+    max-width:100%;
+    max-height:72px;
+  }
 
   #controls { margin-top:18px; display:flex; gap:12px; align-items:center; }
   button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; }
@@ -32,7 +57,7 @@
 <body>
   <div class="card">
     <h2>Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính và in ra chu vi, diện tích hình vuông</h2>
-    <p class="lead">Kéo các khối bên dưới vào các vị trí (từ trái sang phải, thứ tự chạy chương trình).</p>
+    <p class="lead">Kéo các khối bên dưới vào các vị trí theo thứ tự chạy chương trình.</p>
 
     <div>
       <div><strong>Khối sẵn có (kéo từ đây):</strong></div>
@@ -42,7 +67,7 @@
     <hr style="margin:16px 0">
 
     <div>
-      <div><strong>Thả các khối vào vị trí (6 vị trí, thứ tự chạy):</strong></div>
+      <div><strong>Thả các khối vào vị trí (6 vị trí, từ trên xuống):</strong></div>
       <div id="dropzones" class="dropzones"></div>
     </div>
 
@@ -52,7 +77,7 @@
       <div id="result"></div>
     </div>
 
-    <div class="small">Ghi chú: Thả đúng thứ tự để nhận điểm, mỗi slot chỉ nhận 1 khối.</div>
+    <div class="small">Mỗi vị trí chỉ chứa 1 khối. Kéo đúng thứ tự để hoàn thành.</div>
   </div>
 
   <script src="app.js"></script>
