@@ -10,11 +10,28 @@
         { "id": "GTcanh", "img": "images/GTcanh.png", "label": "Gán giá trị cạnh" },
         { "id": "CVvuong", "img": "images/CVvuong.png", "label": "Chu vi = cạnh * 4" },
         { "id": "DTvuong", "img": "images/DTvuong.png", "label": "Diện tích = cạnh * cạnh" },
-        { "id": "kqHvuong", "img": "images/kqHvuong.png", "label": "Hiện kết quả" }
+        { "id": "kqHvuong", "img": "images/kqCvDt.png", "label": "Hiện kết quả" }
       ],
       "answerOrder": ["nutLaCo","nhapCanh","GTcanh","CVvuong","DTvuong","kqHvuong"],
       "dropSlots": 6
+    },
+
+    {
+      "id": "q2",
+      "type": "dragdrop",
+      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính và in ra chu vi, diện tích hình chữ nhật",
+      "options": [
+        { "id": "nutLaCo", "img": "images/nutLaCo.png", "label": "Khi bấm vào" },
+        { "id": "nhapcd", "img": "images/nhapcd.png", "label": "Hỏi nhập chiều dài" },
+        { "id": "GTdai", "img": "images/GTdai.png", "label": "Gán giá trị cd" },
+        { "id": "nhapcr", "img": "images/nhapcr.png", "label": "Hỏi nhập chiều rộng" },
+        { "id": "GTrong", "img": "images/GTrong.png", "label": "Gán giá trị cr" },
+        { "id": "CVhcn", "img": "images/CVhcn.png", "label": "Chu vi HCN" },
+        { "id": "DThcn", "img": "images/DThcn.png", "label": "Diện tích HCN" },
+        { "id": "kqHcn", "img": "images/kqCvDt.png", "label": "Hiện kết quả" }
+      ],
+      "answerOrder": ["nutLaCo","nhapcd","GTdai","nhapcr","GTrong","CVhcn","DThcn","kqHcn"],
+      "dropSlots": 8
     }
   ]
 }
-
