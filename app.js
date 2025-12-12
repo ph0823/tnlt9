@@ -1,6 +1,7 @@
 let questions = [];
 let currentIndex = 0;
 let draggedId = null;
+let score = []; // lưu điểm từng câu
 
 const optionsContainer = document.getElementById("options");
 const dropzonesContainer = document.getElementById("dropzones");
@@ -10,6 +11,7 @@ const resultEl = document.getElementById("result");
 
 const nextBtn = document.getElementById("nextBtn");
 const prevBtn = document.getElementById("prevBtn");
+const resetBtn = document.getElementById("resetBtn");
 
 async function init() {
   const res = await fetch("data/questions.json");
@@ -29,7 +31,10 @@ function loadQuestion() {
   counterText.textContent = `Câu ${currentIndex + 1} / ${questions.length}`;
   resultEl.textContent = "";
 
-  nextBtn.style.display = "none";
+  nextBtn.textContent = currentIndex === questions.length - 1
+    ? "Hoàn thành »"
+    : "Câu tiếp theo »";
+
   prevBtn.style.display = currentIndex === 0 ? "none" : "inline-block";
 
   renderOptions(q.options);
@@ -110,35 +115,49 @@ function renderDropzones(count) {
   }
 }
 
-function attachButtons() {
-  document.getElementById("checkBtn").addEventListener("click", checkAnswer);
-  document.getElementById("resetBtn").addEventListener("click", loadQuestion);
-  nextBtn.addEventListener("click", nextQuestion);
-  prevBtn.addEventListener("click", prevQuestion);
-}
-
-function checkAnswer() {
+/*-------------- AUTO CHẤM KHI BẤM "CÂU TIẾP THEO" ----------------*/
+function autoCheck() {
   const q = questions[currentIndex];
   const slots = Array.from(document.querySelectorAll(".slot"));
   const dropped = slots.map(s => s.dataset.id || null);
 
-  if (JSON.stringify(dropped) === JSON.stringify(q.answerOrder)) {
-    resultEl.style.color = "green";
-    resultEl.textContent = "✔ Chính xác!";
-    if (currentIndex < questions.length - 1) {
-      nextBtn.style.display = "inline-block";
-    }
-  } else {
-    resultEl.style.color = "crimson";
-    resultEl.textContent =
-      "✘ Sai — bạn thả: " + dropped.map(x => x || "-").join(", ");
-  }
+  const correct = JSON.stringify(dropped) === JSON.stringify(q.answerOrder);
+  score[currentIndex] = correct ? 1 : 0;
+
+  return correct;
 }
 
+/*-------------- TỔNG KẾT CUỐI BÀI ----------------*/
+function showFinalResult() {
+  const total = questions.length;
+  const correct = score.filter(x => x === 1).length;
+  const percent = Math.round((correct / total) * 100);
+
+  // Ẩn giao diện làm bài
+  optionsContainer.innerHTML = "";
+  dropzonesContainer.innerHTML = "";
+  document.getElementById("controls").style.display = "none";
+
+  questionTitle.textContent = "KẾT QUẢ BÀI LÀM";
+  counterText.textContent = "";
+
+  resultEl.style.color = "#0b3a66";
+  resultEl.innerHTML = `
+    <div style="font-size:20px; font-weight:bold; margin-top:20px;">
+      Bạn làm đúng ${correct}/${total} câu (${percent}%)
+    </div>
+  `;
+}
+
+/*-------------- NÚT ĐIỀU KHIỂN ----------------*/
 function nextQuestion() {
+  autoCheck(); // tự chấm
+
   if (currentIndex < questions.length - 1) {
     currentIndex++;
     loadQuestion();
+  } else {
+    showFinalResult();
   }
 }
 
@@ -147,6 +166,13 @@ function prevQuestion() {
     currentIndex--;
     loadQuestion();
   }
+}
+
+/*-------------- GẮN NÚT ----------------*/
+function attachButtons() {
+  nextBtn.addEventListener("click", nextQuestion);
+  prevBtn.addEventListener("click", prevQuestion);
+  resetBtn.addEventListener("click", loadQuestion);
 }
 
 init();

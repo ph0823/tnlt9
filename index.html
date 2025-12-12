@@ -21,7 +21,6 @@
     box-shadow:0 8px 22px rgba(0,0,0,0.08);
   }
 
-  /* Tiêu đề câu hỏi */
   #questionTitle {
     font-size:22px;
     font-weight:bold;
@@ -41,7 +40,6 @@
     margin-top:24px;
   }
 
-  /* Cột trái: danh sách khối lệnh */
   .left-col { width:45%; }
   .options { display:flex; flex-direction:column; gap:12px; }
   .option {
@@ -56,7 +54,6 @@
   .option:hover { transform:scale(1.02); }
   .option img { max-width:100%; max-height:72px; pointer-events:none; }
 
-  /* Cột phải: khu vực thả */
   .right-col { width:55%; }
   .dropzones { display:flex; flex-direction:column; gap:14px; }
 
@@ -73,13 +70,6 @@
     background:#eaf2ff;
   }
 
-  .slot-number {
-    position:absolute;
-    left:-32px;
-    font-weight:bold;
-    color:#3c82f6;
-  }
-
   .option-in-slot {
     width:100% !important;
     height:80px;
@@ -94,7 +84,6 @@
     max-height:72px;
   }
 
-  /* Nút điều khiển */
   #controls {
     margin-top:24px;
     display:flex;
@@ -111,7 +100,6 @@
     font-weight:bold;
   }
 
-  #checkBtn { background:#2e86de; color:white; }
   #resetBtn { background:#f0f3f6; border:1px solid #d8e1ee; color:#333; }
   #prevBtn { background:#dcdff7; color:#333; }
   #nextBtn { background:#28a745; color:white; }
@@ -144,9 +132,8 @@
 
     <div id="controls">
       <button id="prevBtn" style="display:none;">« Câu trước</button>
-      <button id="checkBtn">Kiểm tra</button>
       <button id="resetBtn">Làm lại</button>
-      <button id="nextBtn" style="display:none;">Câu tiếp theo »</button>
+      <button id="nextBtn">Câu tiếp theo »</button>
       <div id="result"></div>
     </div>
 
