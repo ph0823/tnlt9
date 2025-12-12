@@ -32,6 +32,54 @@
       ],
       "answerOrder": ["nutLaCo","nhapcd","GTdai","nhapcr","GTrong","CVhcn","DThcn","kqHcn"],
       "dropSlots": 8
+    },
+
+    {
+      "id": "q3",
+      "type": "dragdrop",
+      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình in 6 số đầu tiên của dãy số 4, 8, 12, 16, ...",
+      "options": [
+        { "id": "nutLaCo", "img": "images/nutLaCo.png", "label": "Khi bấm vào" },
+        { "id": "xoaDS", "img": "images/xoaDS.png", "label": "Xóa hết dãy" },
+        { "id": "soDau", "img": "images/soDau.png", "label": "Đặt số đầu tiên" },
+        { "id": "lap6", "img": "images/lap6.png", "label": "Lặp 6 lần" },
+        { "id": "thempt", "img": "images/thempt.png", "label": "thêm số" },
+        { "id": "tang4", "img": "images/tang4.png", "label": "tăng số lên 4" }
+      ],
+      "answerOrder": ["nutLaCo","xoaDS","soDau","lap6","thempt","tang4"],
+      "dropSlots": 6
+    },
+
+    {
+      "id": "q4",
+      "type": "dragdrop",
+      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình in 10 số đầu tiên của dãy số 3, 5, 7, 9, ...",
+      "options": [
+        { "id": "nutLaCo", "img": "images/nutLaCo.png", "label": "Khi bấm vào" },
+        { "id": "xoaDS", "img": "images/xoaDS.png", "label": "Xóa hết dãy" },
+        { "id": "soDau3", "img": "images/soDau3.png", "label": "Đặt số đầu tiên" },
+        { "id": "lap10", "img": "images/lap10.png", "label": "Lặp 10 lần" },
+        { "id": "thempt", "img": "images/thempt.png", "label": "thêm số" },
+        { "id": "tang2", "img": "images/tang2.png", "label": "tăng số lên 2" }
+      ],
+      "answerOrder": ["nutLaCo","xoaDS","soDau3","lap10","thempt","tang2"],
+      "dropSlots": 6
+    },
+
+    {
+      "id": "q5",
+      "type": "dragdrop",
+      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình in các số đầu tiên < 50",
+      "options": [
+        { "id": "nutLaCo", "img": "images/nutLaCo.png", "label": "Khi bấm vào" },
+        { "id": "xoaDS", "img": "images/xoaDS.png", "label": "Xóa hết dãy" },
+        { "id": "soDau0", "img": "images/soDau0.png", "label": "Đặt số đầu tiên" },
+        { "id": "lapDen50", "img": "images/lapDen50.png", "label": "Lặp 50 lần" },
+        { "id": "thempt", "img": "images/thempt.png", "label": "thêm số" },
+        { "id": "tang1", "img": "images/tang1.png", "label": "tăng số lên 1" }
+      ],
+      "answerOrder": ["nutLaCo","xoaDS","soDau0","lapDen50","thempt","tang1"],
+      "dropSlots": 6
     }
   ]
 }
