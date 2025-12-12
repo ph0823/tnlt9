@@ -2,36 +2,55 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8" />
-<title>Drag & Drop — Chu vi, Diện tích hình vuông</title>
+<title>Kéo thả khối lệnh</title>
+
 <style>
-  body { font-family: Arial, sans-serif; background:#f3f6fb; padding:24px; color:#1b2935; }
-  .card { max-width:900px; margin: 0 auto; background:#fff; padding:20px; border-radius:12px; box-shadow:0 6px 18px rgba(20,40,60,0.08); }
+  body {
+    font-family: Arial, sans-serif;
+    background:#f3f6fb;
+    padding:24px;
+    color:#1b2935;
+  }
+
+  .card {
+    max-width:1100px;
+    margin:0 auto;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(20,40,60,0.08);
+  }
+
   h2 { margin:0 0 12px; color:#0b3a66; }
   p.lead { margin:6px 0 18px; color:#334c6b; }
 
-  .options { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:18px; }
-  .option { width:140px; height:80px; display:flex; align-items:center; justify-content:center; border-radius:8px; background:#fff; border:1px solid #e1e9f4; cursor:grab; padding:6px; }
+  .layout {
+    display:flex;
+    gap:30px;
+    margin-top:20px;
+  }
+
+  .left-col { width:45%; }
+  .options { display:flex; flex-direction:column; gap:12px; }
+  .option {
+    width:100%; height:80px; padding:6px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:8px; background:white;
+    border:1px solid #e1e9f4; cursor:grab;
+  }
   .option img { max-width:100%; max-height:72px; pointer-events:none; }
 
-  /* Dropzones theo hàng dọc */
-  .dropzones { 
-    display:flex;
-    flex-direction: column;   /* hàng dọc */
-    gap:12px;
-  }
+  .right-col { width:55%; }
+  .dropzones { display:flex; flex-direction:column; gap:12px; }
   .slot {
-    width:100%; 
-    height:90px; 
-    border:2px dashed #bcd1ef; 
+    width:100%; height:90px;
+    border:2px dashed #bcd1ef;
     border-radius:10px;
-    display:flex; 
-    align-items:center; 
-    justify-content:center; 
+    display:flex; align-items:center; justify-content:center;
     background:#f7fbff;
   }
   .slot.hover { border-color:#4b8af7; background:#eef5ff; }
 
-  /* Khối trong dropzone phải giãn hết chiều rộng */
   .option-in-slot {
     width:100% !important;
     height:80px;
@@ -49,35 +68,45 @@
   button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; }
   #checkBtn { background:#2e86de; color:white; }
   #resetBtn { background:#f0f3f6; color:#333; border:1px solid #d8e1ee; }
+  #nextBtn { background:#28a745; color:white; }
 
   #result { margin-left:12px; font-weight:700; }
-  .small { font-size:13px; color:#6b7b8f; margin-top:10px; }
+
+  .counter { margin-top:6px; font-size:14px; color:#555; }
+
 </style>
 </head>
+
 <body>
   <div class="card">
-    <h2>Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính và in ra chu vi, diện tích hình vuông</h2>
-    <p class="lead">Kéo các khối bên dưới vào các vị trí theo thứ tự chạy chương trình.</p>
+    <h2 id="questionText"></h2>
+    <p class="lead">Kéo các khối từ cột trái sang đúng vị trí trong cột phải.</p>
 
-    <div>
-      <div><strong>Khối sẵn có (kéo từ đây):</strong></div>
-      <div id="options" class="options"></div>
+    <div class="counter">
+      <span id="counterText"></span>
     </div>
 
-    <hr style="margin:16px 0">
+    <div class="layout">
 
-    <div>
-      <div><strong>Thả các khối vào vị trí (6 vị trí, từ trên xuống):</strong></div>
-      <div id="dropzones" class="dropzones"></div>
+      <div class="left-col">
+        <strong>Các khối có sẵn:</strong>
+        <div id="options" class="options"></div>
+      </div>
+
+      <div class="right-col">
+        <strong>Khu vực thả:</strong>
+        <div id="dropzones" class="dropzones"></div>
+      </div>
+
     </div>
 
     <div id="controls">
       <button id="checkBtn">Kiểm tra</button>
       <button id="resetBtn">Làm lại</button>
+      <button id="nextBtn" style="display:none;">Câu tiếp theo »</button>
       <div id="result"></div>
     </div>
 
-    <div class="small">Mỗi vị trí chỉ chứa 1 khối. Kéo đúng thứ tự để hoàn thành.</div>
   </div>
 
   <script src="app.js"></script>

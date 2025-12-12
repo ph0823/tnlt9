@@ -1,53 +1,68 @@
-let q = null;
-let optionsContainer = document.getElementById("options");
-let dropzonesContainer = document.getElementById("dropzones");
-let resultEl = document.getElementById("result");
+let questions = [];
+let currentIndex = 0;
 let draggedId = null;
+
+const optionsContainer = document.getElementById("options");
+const dropzonesContainer = document.getElementById("dropzones");
+const questionText = document.getElementById("questionText");
+const counterText = document.getElementById("counterText");
+const resultEl = document.getElementById("result");
+const nextBtn = document.getElementById("nextBtn");
 
 async function init() {
   const res = await fetch("data/questions.json");
   const data = await res.json();
-  q = data.questions[0];
-  renderOptions(q.options);
-  renderDropzones(q.dropSlots);
+
+  questions = data.questions;
+  currentIndex = 0;
+
+  loadQuestion();
   attachButtons();
 }
 
-function renderOptions(opts) {
-  optionsContainer.innerHTML = "";
-  const shuffled = opts.slice().sort(() => Math.random() - 0.5);
+function loadQuestion() {
+  const q = questions[currentIndex];
 
-  shuffled.forEach(o => {
-    const d = document.createElement("div");
-    d.className = "option";
-    d.draggable = true;
-    d.dataset.id = o.id;
+  questionText.textContent = q.question;
+  counterText.textContent = `Câu ${currentIndex + 1} / ${questions.length}`;
+  resultEl.textContent = "";
+  nextBtn.style.display = "none";
+
+  renderOptions(q.options);
+  renderDropzones(q.dropSlots);
+}
+
+function renderOptions(options) {
+  optionsContainer.innerHTML = "";
+  const shuffled = options.slice().sort(() => Math.random() - 0.5);
+
+  shuffled.forEach(opt => {
+    const box = document.createElement("div");
+    box.className = "option";
+    box.draggable = true;
+    box.dataset.id = opt.id;
 
     const img = document.createElement("img");
-    img.src = o.img;
-    img.alt = o.label;
-    d.appendChild(img);
+    img.src = opt.img;
+    img.alt = opt.label;
+    box.appendChild(img);
 
-    d.addEventListener("dragstart", e => {
-      draggedId = o.id;
-      e.dataTransfer.setData("text/plain", o.id);
-      setTimeout(()=> d.style.visibility = "hidden", 0);
+    box.addEventListener("dragstart", e => {
+      draggedId = opt.id;
+      e.dataTransfer.setData("text/plain", opt.id);
+      setTimeout(() => box.style.visibility = "hidden", 0);
     });
 
-    d.addEventListener("dragend", () => {
-      const el = document.querySelector(`.option[data-id='${o.id}']`);
-      if (el) el.style.visibility = "visible";
-      draggedId = null;
-    });
+    box.addEventListener("dragend", () => box.style.visibility = "visible");
 
-    optionsContainer.appendChild(d);
+    optionsContainer.appendChild(box);
   });
 }
 
-function renderDropzones(n) {
+function renderDropzones(count) {
   dropzonesContainer.innerHTML = "";
 
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < count; i++) {
     const slot = document.createElement("div");
     slot.className = "slot";
     slot.dataset.index = i;
@@ -68,21 +83,21 @@ function renderDropzones(n) {
 
       if (slot.dataset.occupied === "1") return;
 
-      const optDiv = document.querySelector(`.option[data-id='${id}']`);
-      if (!optDiv) return;
+      const original = document.querySelector(`.option[data-id='${id}']`);
+      if (!original) return;
 
-      const clone = optDiv.cloneNode(true);
-      clone.style.visibility = "visible";
-      clone.draggable = false;
+      const clone = original.cloneNode(true);
       clone.className = "option-in-slot";
-      clone.style.width = "100%"; // giãn đầy chiều rộng
+      clone.draggable = false;
+      clone.style.visibility = "visible";
+
       slot.appendChild(clone);
 
       slot.dataset.occupied = "1";
       slot.dataset.id = id;
 
-      optDiv.style.opacity = "0.25";
-      optDiv.style.pointerEvents = "none";
+      original.style.opacity = "0.25";
+      original.style.pointerEvents = "none";
     });
 
     dropzonesContainer.appendChild(slot);
@@ -91,42 +106,35 @@ function renderDropzones(n) {
 
 function attachButtons() {
   document.getElementById("checkBtn").addEventListener("click", checkAnswer);
-  document.getElementById("resetBtn").addEventListener("click", resetAll);
+  document.getElementById("resetBtn").addEventListener("click", loadQuestion);
+  nextBtn.addEventListener("click", nextQuestion);
 }
 
 function checkAnswer() {
+  const q = questions[currentIndex];
   const slots = Array.from(document.querySelectorAll(".slot"));
   const dropped = slots.map(s => s.dataset.id || null);
 
-  const expected = q.answerOrder;
-  const ok = JSON.stringify(dropped) === JSON.stringify(expected);
+  const ok = JSON.stringify(dropped) === JSON.stringify(q.answerOrder);
 
   if (ok) {
     resultEl.style.color = "green";
-    resultEl.textContent = "✔ Chính xác — thứ tự đúng!";
+    resultEl.textContent = "✔ Chính xác!";
+    if (currentIndex < questions.length - 1) {
+      nextBtn.style.display = "inline-block";
+    }
   } else {
     resultEl.style.color = "crimson";
     resultEl.textContent =
-      "✘ Sai — thử lại. (Bạn thả: " +
-      dropped.map(x => x || "-").join(", ") +
-      ")";
+      "✘ Sai — thử lại. Bạn đã thả: " + dropped.map(x => x || "-").join(", ");
   }
 }
 
-function resetAll() {
-  document.querySelectorAll(".slot").forEach(s => {
-    s.innerHTML = "";
-    s.dataset.occupied = "0";
-    s.dataset.id = "";
-  });
-
-  document.querySelectorAll(".option").forEach(o => {
-    o.style.opacity = "1";
-    o.style.pointerEvents = "auto";
-    o.style.visibility = "visible";
-  });
-
-  resultEl.textContent = "";
+function nextQuestion() {
+  if (currentIndex < questions.length - 1) {
+    currentIndex++;
+    loadQuestion();
+  }
 }
 
 init();
