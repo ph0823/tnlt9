@@ -4,10 +4,12 @@ let draggedId = null;
 
 const optionsContainer = document.getElementById("options");
 const dropzonesContainer = document.getElementById("dropzones");
-const questionText = document.getElementById("questionText");
+const questionTitle = document.getElementById("questionTitle");
 const counterText = document.getElementById("counterText");
 const resultEl = document.getElementById("result");
+
 const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.getElementById("prevBtn");
 
 async function init() {
   const res = await fetch("data/questions.json");
@@ -23,10 +25,12 @@ async function init() {
 function loadQuestion() {
   const q = questions[currentIndex];
 
-  questionText.textContent = q.question;
+  questionTitle.textContent = q.title;
   counterText.textContent = `Câu ${currentIndex + 1} / ${questions.length}`;
   resultEl.textContent = "";
+
   nextBtn.style.display = "none";
+  prevBtn.style.display = currentIndex === 0 ? "none" : "inline-block";
 
   renderOptions(q.options);
   renderDropzones(q.dropSlots);
@@ -53,7 +57,10 @@ function renderOptions(options) {
       setTimeout(() => box.style.visibility = "hidden", 0);
     });
 
-    box.addEventListener("dragend", () => box.style.visibility = "visible");
+    box.addEventListener("dragend", () => {
+      box.style.visibility = "visible";
+      draggedId = null;
+    });
 
     optionsContainer.appendChild(box);
   });
@@ -67,11 +74,10 @@ function renderDropzones(count) {
     slot.className = "slot";
     slot.dataset.index = i;
 
-    slot.addEventListener("dragover", e => { 
-      e.preventDefault(); 
-      slot.classList.add("hover"); 
+    slot.addEventListener("dragover", e => {
+      e.preventDefault();
+      slot.classList.add("hover");
     });
-
     slot.addEventListener("dragleave", () => slot.classList.remove("hover"));
 
     slot.addEventListener("drop", e => {
@@ -108,6 +114,7 @@ function attachButtons() {
   document.getElementById("checkBtn").addEventListener("click", checkAnswer);
   document.getElementById("resetBtn").addEventListener("click", loadQuestion);
   nextBtn.addEventListener("click", nextQuestion);
+  prevBtn.addEventListener("click", prevQuestion);
 }
 
 function checkAnswer() {
@@ -115,9 +122,7 @@ function checkAnswer() {
   const slots = Array.from(document.querySelectorAll(".slot"));
   const dropped = slots.map(s => s.dataset.id || null);
 
-  const ok = JSON.stringify(dropped) === JSON.stringify(q.answerOrder);
-
-  if (ok) {
+  if (JSON.stringify(dropped) === JSON.stringify(q.answerOrder)) {
     resultEl.style.color = "green";
     resultEl.textContent = "✔ Chính xác!";
     if (currentIndex < questions.length - 1) {
@@ -126,13 +131,20 @@ function checkAnswer() {
   } else {
     resultEl.style.color = "crimson";
     resultEl.textContent =
-      "✘ Sai — thử lại. Bạn đã thả: " + dropped.map(x => x || "-").join(", ");
+      "✘ Sai — bạn thả: " + dropped.map(x => x || "-").join(", ");
   }
 }
 
 function nextQuestion() {
   if (currentIndex < questions.length - 1) {
     currentIndex++;
+    loadQuestion();
+  }
+}
+
+function prevQuestion() {
+  if (currentIndex > 0) {
+    currentIndex--;
     loadQuestion();
   }
 }
