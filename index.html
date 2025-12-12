@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Câu hỏi kéo – thả Scratch</title>
+
+  <style>
+    body { font-family: Arial; background: #f4f6f9; padding: 30px; }
+
+    #question-area {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 600px;
+      margin: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    #question-image {
+      width: 100%;
+      margin-bottom: 15px;
+      border-radius: 10px;
+    }
+
+    #options, #dropzone {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .option-item img {
+      width: 160px;
+      cursor: grab;
+      border: 2px solid transparent;
+    }
+
+    .option-item img:hover {
+      border-color: orange;
+    }
+
+    #dropzone {
+      background: #e8f0fe;
+      padding: 15px;
+      border: 2px dashed #4b82f0;
+      border-radius: 10px;
+      min-height: 120px;
+    }
+
+    #dropzone img {
+      width: 160px;
+      margin: 5px;
+    }
+
+    #submit {
+      margin-top: 20px;
+      padding: 10px 25px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div id="question-area">
+  <h2 id="qtext"></h2>
+  <img id="question-image" src="">
+
+  <h4>Kéo các khối dưới đây:</h4>
+  <div id="options"></div>
+
+  <h4>Thả vào đây theo đúng thứ tự:</h4>
+  <div id="dropzone"></div>
+
+  <button id="submit">Nộp bài</button>
+
+  <p id="result" style="font-size:20px; font-weight:bold;"></p>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
