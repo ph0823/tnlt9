@@ -1,18 +1,20 @@
 {
   "questions": [
     {
-      "id": 1,
+      "id": "q1",
       "type": "dragdrop",
-      "question": "Kéo thả các khối lệnh Scratch theo đúng thứ tự để tính tổng 2 số nguyên a và b",
-      "image": "images/h1Tongab.png",
-
+      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính và in ra chu vi, diện tích hình vuông",
       "options": [
-        { "id": "o1", "img": "images/set_result.png", "label": "Đặt biến result = 0" },
-        { "id": "o2", "img": "images/set_a_plus_b.png", "label": "Đặt result = a + b" },
-        { "id": "o3", "img": "images/show_variable.png", "label": "Hiện biến result" }
+        { "id": "nutLaCo", "img": "images/nutLaCo.png", "label": "Khi bấm vào" },
+        { "id": "nhapCanh", "img": "images/nhapCanh.png", "label": "Hỏi nhập cạnh" },
+        { "id": "GTcanh", "img": "images/GTcanh.png", "label": "Gán giá trị cạnh" },
+        { "id": "CVvuong", "img": "images/CVvuong.png", "label": "Chu vi = cạnh * 4" },
+        { "id": "DTvuong", "img": "images/DTvuong.png", "label": "Diện tích = cạnh * cạnh" },
+        { "id": "kqHvuong", "img": "images/kqHvuong.png", "label": "Hiện kết quả" }
       ],
-
-      "answer": ["o2", "o3"]
+      "answerOrder": ["nutLaCo","nhapCanh","GTcanh","CVvuong","DTvuong","kqHvuong"],
+      "dropSlots": 6
     }
   ]
 }
+
