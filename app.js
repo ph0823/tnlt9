@@ -3,6 +3,7 @@ let currentIndex = 0;
 let draggedId = null;
 let score = []; // lưu điểm từng câu
 
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzBEriua8S5b3yzj3Rf-EuhFiS_yVwjVavxZ7ZJDhwCWspQYxgr9G6XnYY4hGB4NRtw/exec"
 const optionsContainer = document.getElementById("options");
 const dropzonesContainer = document.getElementById("dropzones");
 const questionTitle = document.getElementById("questionTitle");
@@ -111,7 +112,13 @@ function startTimer() {
 
     if (timeLeft <= 0) {
       clearInterval(timer);
-      alert("⏰ Hết thời gian làm bài!");
+
+      // ✅ TỰ CHẤM CÂU HIỆN TẠI
+      autoCheck();
+
+      alert("⏰ Hết thời gian! Bài đã được nộp.");
+
+      // ✅ HIỂN THỊ KẾT QUẢ
       showFinalResult();
     }
   }, 1000);
@@ -236,6 +243,7 @@ function showFinalResult() {
 
   document.querySelector(".layout").style.display = "none";
   document.getElementById("controls").style.display = "none";
+  document.getElementById("timer").style.display = "none";
 
   questionTitle.textContent = "🎉 KẾT QUẢ BÀI LÀM";
   counterText.textContent = "";
@@ -262,6 +270,21 @@ function showFinalResult() {
       </div>
     </div>
   `;
+
+  // ===== GỬI KẾT QUẢ VỀ GOOGLE SHEET =====
+  fetch(SHEET_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      class: classSelect.value,
+      stt: sttSelect.value,
+      name: nameInput.value,
+      correct: correct,
+      total: total,
+      percent: percent,
+      timeLeft: timerEl.textContent
+    })
+  });
+
 }
 
 

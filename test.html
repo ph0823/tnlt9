@@ -13,7 +13,7 @@
   }
 
   .card {
-    max-width:1100px;
+    max-width:1200px;
     margin:0 auto;
     background:white;
     padding:24px;
@@ -67,14 +67,14 @@
   #timer {
     font-weight:bold;
     color:#c0392b;
-    margin:10px 0;
+    margin:12px 0;
     display:none;
   }
 
   /* ===== BÀI LÀM ===== */
   .layout {
     display:none;
-    gap:30px;
+    gap:28px;
     margin-top:24px;
   }
 
@@ -84,38 +84,49 @@
   .options {
     display:flex;
     flex-direction:column;
-    gap:12px;
-  }
-
-  .option {
-    height:80px;
-    border:1px solid #dce4f4;
-    border-radius:10px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:grab;
-  }
-
-  .option img {
-    max-height:72px;
-    pointer-events:none;
-  }
-
-  .dropzones {
-    display:flex;
-    flex-direction:column;
     gap:14px;
   }
 
-  .slot {
-    height:90px;
-    border:2px dashed #bcd1ef;
-    border-radius:10px;
-    background:#f8fbff;
+  /* 🔥 TỐI ƯU PNG KHỐI LỆNH */
+  .option {
+    min-height:90px;
+    padding:6px 10px;
+    border:1px solid #dce4f4;
+    border-radius:12px;
+    background:#f9fbff;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
+    cursor:grab;
+    overflow:hidden;        /* chặn tràn */
+  }
+
+  .option img {
+    max-width:100%;         /* KHÓA chiều ngang */
+    max-height:80px;        /* KHÓA chiều cao */
+    object-fit:contain;     /* giữ tỉ lệ */
+    pointer-events:none;
+  }
+
+  /* ===== KHU THẢ ===== */
+  .dropzones {
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .slot {
+    min-height:95px;
+    border:2px dashed #bcd1ef;
+    border-radius:12px;
+    background:#f8fbff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
   }
 
   .slot.hover {
@@ -123,6 +134,14 @@
     background:#eaf2ff;
   }
 
+  /* Khối đã thả */
+  .option-in-slot img {
+    max-width:100%;
+    max-height:85px;
+    object-fit:contain;
+  }
+
+  /* ===== NÚT ===== */
   #controls {
     display:none;
     margin-top:24px;
@@ -141,6 +160,11 @@
   #resetBtn { background:#f0f3f6; }
   #prevBtn { background:#dcdff7; }
   #nextBtn { background:#28a745; color:white; }
+
+  #result {
+    margin-left:20px;
+    font-weight:bold;
+  }
 </style>
 </head>
 
@@ -192,9 +216,10 @@
     <button id="prevBtn" style="display:none;">« Câu trước</button>
     <button id="resetBtn">Làm lại</button>
     <button id="nextBtn">Câu tiếp theo »</button>
-    <div id="result"></div>
+    
   </div>
 
+  <div id="result"></div>
 </div>
 
 <script src="app.js"></script>
