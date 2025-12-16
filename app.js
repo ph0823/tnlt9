@@ -83,15 +83,23 @@ nameInput.addEventListener("input", checkStudentInfo);
 classSelect.addEventListener("change", checkStudentInfo);
 sttSelect.addEventListener("change", checkStudentInfo);
 
-// BẮT ĐẦU LÀM BÀI
+// ----------------- BẮT ĐẦU LÀM BÀI --------------------------------
 startBtn.addEventListener("click", () => {
+  // Ẩn form thông tin
   document.getElementById("studentInfo").style.display = "none";
+
+  // Hiện khu làm bài
   document.querySelector(".layout").style.display = "flex";
   document.getElementById("controls").style.display = "flex";
   timerEl.style.display = "block";
 
+  // BẮT ĐẦU LOAD CÂU HỎI
+  init();
+
+  // BẮT ĐẦU TÍNH GIỜ
   startTimer();
 });
+
 
 // ĐẾM NGƯỢC 15 PHÚT
 function startTimer() {
@@ -279,4 +287,4 @@ function attachButtons() {
   resetBtn.addEventListener("click", loadQuestion);
 }
 
-init();
+
