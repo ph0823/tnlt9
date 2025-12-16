@@ -228,37 +228,42 @@ function autoCheck() {
   return correct;
 }
 
-/*-------------- TỔNG KẾT CUỐI BÀI ----------------*/
+/*-------------- CHẤM VÀ HIỆN THÔNG BÁO ----------------*/
 function showFinalResult() {
   const total = questions.length;
   const correct = score.filter(x => x === 1).length;
   const percent = Math.round((correct / total) * 100);
 
-  // Ẩn hoàn toàn vùng làm bài
   document.querySelector(".layout").style.display = "none";
-
-  // Ẩn các nút
   document.getElementById("controls").style.display = "none";
 
-  // Cập nhật tiêu đề
-  questionTitle.textContent = "KẾT QUẢ BÀI LÀM";
+  questionTitle.textContent = "🎉 KẾT QUẢ BÀI LÀM";
   counterText.textContent = "";
 
-  // Hiển thị điểm
-  resultEl.style.color = "#0b3a66";
-  resultEl.style.fontSize = "24px";
-  resultEl.style.marginTop = "20px";
   resultEl.innerHTML = `
-    <div style="font-size:22px; font-weight:bold; margin-bottom:16px;">
-      Bạn làm đúng ${correct}/${total} câu (${percent}%)
-    </div>
+    <div style="
+      margin-top:30px;
+      padding:24px;
+      background:#f0f7ff;
+      border-radius:14px;
+      text-align:center;
+      box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    ">
+      <div style="font-size:26px; font-weight:bold; color:#0b3a66;">
+        Bạn làm đúng ${correct} / ${total} câu
+      </div>
 
-    <div style="font-size:16px; color:#333; margin-top:10px;">
-      ✓ Mỗi câu được tính 1 điểm<br>
-      ✓ Không tính lại khi quay về câu trước
+      <div style="font-size:20px; margin-top:10px;">
+        👉 Đạt ${percent}%
+      </div>
+
+      <div style="margin-top:16px; font-size:15px; color:#444;">
+        ⏱ Bài làm được nộp khi hết giờ hoặc bấm “Hoàn thành”
+      </div>
     </div>
   `;
 }
+
 
 
 /*-------------- NÚT ĐIỀU KHIỂN ----------------*/
