@@ -287,4 +287,5 @@ function attachButtons() {
   resetBtn.addEventListener("click", loadQuestion);
 }
 
+checkStudentInfo();
 
