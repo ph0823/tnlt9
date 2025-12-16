@@ -19,7 +19,7 @@
     {
       "id": "q2",
       "type": "dragdrop",
-      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính và in ra chu vi, diện tích hình chữ nhật",
+      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình nhập chiều dài, chiều rộng hình chữ nhật. Tính và in ra chu vi, diện tích hình chữ nhật",
       "options": [
         { "id": "nutLaCo", "img": "images/nutLaCo.png", "label": "Khi bấm vào" },
         { "id": "nhapcd", "img": "images/nhapcd.png", "label": "Hỏi nhập chiều dài" },
@@ -80,6 +80,44 @@
       ],
       "answerOrder": ["nutLaCo","xoaDS","soDau0","lapDen50","thempt","tang1"],
       "dropSlots": 6
+    },
+
+    {
+      "id": "q6",
+      "type": "dragdrop",
+      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính tổng tất cả các số nhỏ hơn 50",
+      "options": [
+        { "id": "nutLaCo", "img": "images/nutLaCo.png", "label": "Khi bấm vào" },
+        { "id": "xoaDS", "img": "images/xoaDS.png", "label": "Xóa hết dãy" },
+        { "id": "tong0", "img": "images/tong0.png", "label": "Đặt tổng là 0" },
+        { "id": "soDau0", "img": "images/soDau0.png", "label": "Đặt số đầu tiên" },
+        { "id": "lapDen50", "img": "images/lapDen50.png", "label": "Lặp 50 lần" },
+        { "id": "thempt", "img": "images/thempt.png", "label": "thêm số" },
+        { "id": "tinhTong", "img": "images/tinhTong.png", "label": "Đặt tổng tăng thêm bởi số" },
+        { "id": "tang1", "img": "images/tang1.png", "label": "tăng số lên 1" }
+      ],
+      "answerOrder": ["nutLaCo","xoaDS","tong0", "soDau0","lapDen50","thempt","tinhTong","tang1"],
+      "dropSlots": 8
+    },
+
+    {
+      "id": "q7",
+      "type": "dragdrop",
+      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính tổng của 10 số hạng đầu tiên của dãy số 2, 4, 8, 14,...",
+      "options": [
+        { "id": "nutLaCo", "img": "images/nutLaCo.png", "label": "Khi bấm vào" },
+        { "id": "xoaDS", "img": "images/xoaDS.png", "label": "Xóa hết dãy" },
+        { "id": "tong0", "img": "images/tong0.png", "label": "Đặt tổng là 0" },
+        { "id": "i1", "img": "images/i1.png", "label": "Đặt i là 1" },
+        { "id": "soDau2", "img": "images/soDau2.png", "label": "Đặt số đầu tiên là 2" },
+        { "id": "lapDen10", "img": "images/lapDen10.png", "label": "Lặp 10 lần" },
+        { "id": "thempt", "img": "images/thempt.png", "label": "thêm số" },
+        { "id": "tinhTong", "img": "images/tinhTong.png", "label": "Đặt tổng tăng thêm bởi số" },        
+        { "id": "tangSoI2", "img": "images/tangSoI2.png", "label": "tăng số lên i * 2" },
+        { "id": "tangi1", "img": "images/tangi1.png", "label": "tăng i lên 1" }
+      ],
+      "answerOrder": ["nutLaCo","xoaDS","tong0", "i1", "soDau2","lapDen10","thempt","tinhTong","tangSoI2", "tangi1"],
+      "dropSlots": 10
     }
   ]
 }
