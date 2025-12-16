@@ -24,6 +24,76 @@ async function init() {
   attachButtons();
 }
 
+/* ================= THÔNG TIN HỌC SINH + TIMER ================= */
+
+const nameInput = document.getElementById("studentName");
+const classSelect = document.getElementById("studentClass");
+const sttSelect = document.getElementById("studentStt");
+const startBtn = document.getElementById("startBtn");
+const timerEl = document.getElementById("timer");
+
+let timer = null;
+let timeLeft = 15 * 60; // 15 phút
+
+// Tạo STT từ 1 -> 50
+for (let i = 1; i <= 50; i++) {
+  const opt = document.createElement("option");
+  opt.value = i;
+  opt.textContent = i;
+  sttSelect.appendChild(opt);
+}
+
+// Kiểm tra đủ thông tin chưa
+function checkStudentInfo() {
+  if (
+    nameInput.value.trim() &&
+    classSelect.value &&
+    sttSelect.value
+  ) {
+    startBtn.style.display = "inline-block";
+  } else {
+    startBtn.style.display = "none";
+  }
+}
+
+nameInput.addEventListener("input", checkStudentInfo);
+classSelect.addEventListener("change", checkStudentInfo);
+sttSelect.addEventListener("change", checkStudentInfo);
+
+// BẮT ĐẦU LÀM BÀI
+startBtn.addEventListener("click", () => {
+  document.getElementById("studentInfo").style.display = "none";
+  document.querySelector(".layout").style.display = "flex";
+  document.getElementById("controls").style.display = "flex";
+  timerEl.style.display = "block";
+
+  startTimer();
+});
+
+// ĐẾM NGƯỢC 15 PHÚT
+function startTimer() {
+  updateTimerText();
+
+  timer = setInterval(() => {
+    timeLeft--;
+    updateTimerText();
+
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      alert("⏰ Hết thời gian làm bài!");
+      showFinalResult();
+    }
+  }, 1000);
+}
+
+function updateTimerText() {
+  const min = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+  const sec = String(timeLeft % 60).padStart(2, "0");
+  timerEl.textContent = `⏱ Thời gian còn lại: ${min}:${sec}`;
+}
+
+/* ================= load câu hỏi ================*/
+
 function loadQuestion() {
   const q = questions[currentIndex];
 
@@ -133,21 +203,32 @@ function showFinalResult() {
   const correct = score.filter(x => x === 1).length;
   const percent = Math.round((correct / total) * 100);
 
-  // Ẩn giao diện làm bài
-  optionsContainer.innerHTML = "";
-  dropzonesContainer.innerHTML = "";
+  // Ẩn hoàn toàn vùng làm bài
+  document.querySelector(".layout").style.display = "none";
+
+  // Ẩn các nút
   document.getElementById("controls").style.display = "none";
 
+  // Cập nhật tiêu đề
   questionTitle.textContent = "KẾT QUẢ BÀI LÀM";
   counterText.textContent = "";
 
+  // Hiển thị điểm
   resultEl.style.color = "#0b3a66";
+  resultEl.style.fontSize = "24px";
+  resultEl.style.marginTop = "20px";
   resultEl.innerHTML = `
-    <div style="font-size:20px; font-weight:bold; margin-top:20px;">
+    <div style="font-size:22px; font-weight:bold; margin-bottom:16px;">
       Bạn làm đúng ${correct}/${total} câu (${percent}%)
+    </div>
+
+    <div style="font-size:16px; color:#333; margin-top:10px;">
+      ✓ Mỗi câu được tính 1 điểm<br>
+      ✓ Không tính lại khi quay về câu trước
     </div>
   `;
 }
+
 
 /*-------------- NÚT ĐIỀU KHIỂN ----------------*/
 function nextQuestion() {

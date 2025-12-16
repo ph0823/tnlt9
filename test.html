@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<title>Bài tập kéo thả khối lệnh</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background:#eef3f9;
+    padding:24px;
+    color:#1b2935;
+  }
+
+  .card {
+    max-width:1100px;
+    margin:0 auto;
+    background:white;
+    padding:24px;
+    border-radius:14px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.08);
+  }
+
+  #questionTitle {
+    font-size:22px;
+    font-weight:bold;
+    color:#0b3a66;
+    margin-bottom:6px;
+  }
+
+  .counter {
+    margin-top:4px;
+    font-size:14px;
+    color:#555;
+  }
+
+  .layout {
+    display:flex;
+    gap:30px;
+    margin-top:24px;
+  }
+
+  .left-col { width:45%; }
+  .options { display:flex; flex-direction:column; gap:12px; }
+  .option {
+    width:100%; height:80px; padding:6px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:10px;
+    background:white;
+    border:1px solid #dce4f4;
+    cursor:grab;
+    transition:0.15s;
+  }
+  .option:hover { transform:scale(1.02); }
+  .option img { max-width:100%; max-height:72px; pointer-events:none; }
+
+  .right-col { width:55%; }
+  .dropzones { display:flex; flex-direction:column; gap:14px; }
+
+  .slot {
+    width:100%; height:90px;
+    border:2px dashed #bcd1ef;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    background:#f8fbff;
+    transition:0.2s;
+  }
+  .slot.hover {
+    border-color:#3c82f6;
+    background:#eaf2ff;
+  }
+
+  .option-in-slot {
+    width:100% !important;
+    height:80px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:6px;
+  }
+
+  .option-in-slot img {
+    max-width:100%;
+    max-height:72px;
+  }
+
+  .layout, #controls {
+    display: none;
+  }
+
+  #controls {
+    margin-top:24px;
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+
+  button {
+    padding:10px 18px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:bold;
+  }
+
+  #resetBtn { background:#f0f3f6; border:1px solid #d8e1ee; color:#333; }
+  #prevBtn { background:#dcdff7; color:#333; }
+  #nextBtn { background:#28a745; color:white; }
+
+  #result {
+    margin-left:12px;
+    font-weight:700;
+    min-width:200px;
+  }
+</style>
+</head>
+
+<body>
+  <div class="card">
+    <!-- THÔNG TIN HỌC SINH -->
+    <div id="studentInfo" style="margin-bottom:20px;">
+      <h3 style="margin-bottom:10px; color:#0b3a66;">Thông tin học sinh</h3>
+
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <input id="studentName" type="text" placeholder="Họ và tên"
+          style="flex:1; padding:10px; border-radius:8px; border:1px solid #ccc;" />
+
+        <select id="studentClass"
+          style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+          <option value="">-- Chọn lớp --</option>
+          <option>9.1</option><option>9.2</option><option>9.3</option>
+          <option>9.4</option><option>9.5</option>
+          <option>9.14</option><option>9.15</option><option>9.16</option>
+        </select>
+
+        <select id="studentStt"
+          style="padding:10px; border-radius:8px; border:1px solid #ccc;">
+          <option value="">-- STT --</option>
+        </select>
+      </div>
+
+      <button id="startBtn"
+        style="margin-top:14px; display:none;
+        background:#007bff; color:white; padding:10px 20px;
+        border:none; border-radius:8px; font-weight:bold;">
+        ▶ Làm bài
+      </button>
+    </div>
+
+    <!-- ĐỒNG HỒ ĐẾM NGƯỢC -->
+    <div id="timer"
+      style="font-size:16px; font-weight:bold; color:#c0392b; margin-bottom:10px; display:none;">
+      ⏱ Thời gian còn lại: 15:00
+    </div>
+
+    <div id="questionTitle"></div>
+    <div class="counter" id="counterText"></div>
+
+    <div class="layout">
+      <div class="left-col">
+        <strong>Khối lệnh có sẵn:</strong>
+        <div id="options" class="options"></div>
+      </div>
+
+      <div class="right-col">
+        <strong>Khu vực thả đúng thứ tự:</strong>
+        <div id="dropzones" class="dropzones"></div>
+      </div>
+    </div>
+
+    <div id="controls">
+      <button id="prevBtn" style="display:none;">« Câu trước</button>
+      <button id="resetBtn">Làm lại</button>
+      <button id="nextBtn">Câu tiếp theo »</button>
+      <div id="result"></div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
