@@ -45,16 +45,39 @@ for (let i = 1; i <= 50; i++) {
 
 // Kiểm tra đủ thông tin chưa
 function checkStudentInfo() {
-  if (
-    nameInput.value.trim() &&
-    classSelect.value &&
-    sttSelect.value
-  ) {
-    startBtn.style.display = "inline-block";
-  } else {
+  // Chưa chọn lớp
+  if (!classSelect.value) {
+    sttSelect.disabled = true;
+    nameInput.disabled = true;
     startBtn.style.display = "none";
+    return;
   }
+
+  // Đã chọn lớp → cho chọn STT
+  sttSelect.disabled = false;
+
+  // Chưa chọn STT
+  if (!sttSelect.value) {
+    nameInput.disabled = true;
+    startBtn.style.display = "none";
+    return;
+  }
+
+  // Đã chọn STT → cho nhập tên
+  nameInput.disabled = false;
+
+  // Chưa nhập tên
+  if (nameInput.value.trim().length < 3) {
+    startBtn.style.display = "none";
+    return;
+  }
+
+  // ĐỦ THÔNG TIN
+  startBtn.style.display = "inline-block";
 }
+
+
+
 
 nameInput.addEventListener("input", checkStudentInfo);
 classSelect.addEventListener("change", checkStudentInfo);
