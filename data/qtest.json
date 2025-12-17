@@ -2,6 +2,7 @@
   "questions": [
     {
       "id": "q1",
+      "cd": "cdHinh",
       "type": "dragdrop",
       "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính và in ra chu vi, diện tích hình vuông",
       "options": [
@@ -18,6 +19,7 @@
 
     {
       "id": "q2",
+      "cd": "cdHinh",
       "type": "dragdrop",
       "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình nhập chiều dài, chiều rộng hình chữ nhật. Tính và in ra chu vi, diện tích hình chữ nhật",
       "options": [
@@ -36,6 +38,7 @@
 
     {
       "id": "q3",
+      "cd": "cdDaySo",
       "type": "dragdrop",
       "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình in 6 số đầu tiên của dãy số 4, 8, 12, 16, ...",
       "options": [
@@ -52,6 +55,7 @@
 
     {
       "id": "q4",
+      "cd": "cdDaySo",
       "type": "dragdrop",
       "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình in 10 số đầu tiên của dãy số 3, 5, 7, 9, ...",
       "options": [
@@ -68,6 +72,7 @@
 
     {
       "id": "q5",
+      "cd": "cdDaySo",
       "type": "dragdrop",
       "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình in các số đầu tiên < 50",
       "options": [
@@ -83,25 +88,67 @@
     },
 
     {
-      "id": "q6",
+      "id": "q6", //de2-cau1
+      "cd": "cdTinhDS",
       "type": "dragdrop",
-      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính tổng tất cả các số nhỏ hơn 50",
+      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính tổng tất cả các số nhỏ hơn 100",
       "options": [
         { "id": "nutLaCo", "img": "images/nutLaCo.png", "label": "Khi bấm vào" },
         { "id": "xoaDS", "img": "images/xoaDS.png", "label": "Xóa hết dãy" },
         { "id": "tong0", "img": "images/tong0.png", "label": "Đặt tổng là 0" },
         { "id": "soDau0", "img": "images/soDau0.png", "label": "Đặt số đầu tiên" },
-        { "id": "lapDen50", "img": "images/lapDen50.png", "label": "Lặp 50 lần" },
+        { "id": "lap100", "img": "images/lap100.png", "label": "Lặp 100 lần" },
         { "id": "thempt", "img": "images/thempt.png", "label": "thêm số" },
         { "id": "tinhTong", "img": "images/tinhTong.png", "label": "Đặt tổng tăng thêm bởi số" },
         { "id": "tang1", "img": "images/tang1.png", "label": "tăng số lên 1" }
       ],
-      "answerOrder": ["nutLaCo","xoaDS","tong0", "soDau0","lapDen50","thempt","tinhTong","tang1"],
+      "answerOrder": ["nutLaCo","xoaDS","tong0", "soDau0","lap100","thempt","tinhTong","tang1"],
       "dropSlots": 8
     },
 
     {
-      "id": "q7",
+      "id": "q7", //de1-cau1
+      "cd": "cdTinhDS",
+      "type": "dragdrop",
+      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính tổng 50 số đầu tiên của dãy 4, 8, 12, 16, ...",
+      "options": [
+        { "id": "nutLaCo", "img": "images/nutLaCo.png", "label": "Khi bấm vào" },
+        { "id": "xoaDS", "img": "images/xoaDS.png", "label": "Xóa hết dãy" },
+        { "id": "tong0", "img": "images/tong0.png", "label": "Đặt tổng là 0" },
+        { "id": "soDau4", "img": "images/soDau4.png", "label": "Đặt số đầu tiên" },
+        { "id": "lap50", "img": "images/lap50.png", "label": "Lặp 50 lần" },
+        { "id": "thempt", "img": "images/thempt.png", "label": "thêm số" },
+        { "id": "tinhTong", "img": "images/tinhTong.png", "label": "Đặt tổng tăng thêm bởi số" },
+        { "id": "tang4", "img": "images/tang4.png", "label": "tăng số lên 4" }
+      ],
+      "answerOrder": ["nutLaCo","xoaDS","tong0", "soDau4","lap50","thempt","tinhTong","tang4"],
+      "dropSlots": 8
+    },
+
+    {
+      "id": "q8", //de3-cau1
+      "cd": "cdTinhDS",
+      "type": "dragdrop",
+      "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính tổng 70 số đầu tiên của dãy 1, 3, 7, 21, ...",
+      "options": [
+        { "id": "nutLaCo", "img": "images/nutLaCo.png", "label": "Khi bấm vào" },
+        { "id": "xoaDS", "img": "images/xoaDS.png", "label": "Xóa hết dãy" },
+        { "id": "tong0", "img": "images/tong0.png", "label": "Đặt tổng là 0" },
+        { "id": "i1", "img": "images/i1.png", "label": "Đặt i là 1" },
+        { "id": "soDau2", "img": "images/soDau2.png", "label": "Đặt số đầu tiên là 1" },
+        { "id": "lap10", "img": "images/lap10.png", "label": "Lặp 70 lần" },
+        { "id": "thempt", "img": "images/thempt.png", "label": "thêm số" },
+        { "id": "tinhTong", "img": "images/tinhTong.png", "label": "Đặt tổng tăng thêm bởi số" },        
+        { "id": "tangSoI2", "img": "images/tangSoI2.png", "label": "tăng số lên i * 2" },
+        { "id": "tangi1", "img": "images/tangi1.png", "label": "tăng i lên 1" }
+      ],
+      "answerOrder": ["nutLaCo","xoaDS","tong0", "i1", "soDau2","lap10","thempt","tinhTong","tangSoI2", "tangi1"],
+      "dropSlots": 10
+    },
+
+    {
+      "id": "q9",
+      "cd": "cdTinhDS",
       "type": "dragdrop",
       "title": "Sử dụng các khối lệnh có sẵn ghép thành một chương trình tính tổng của 10 số hạng đầu tiên của dãy số 2, 4, 8, 14,...",
       "options": [
@@ -110,7 +157,7 @@
         { "id": "tong0", "img": "images/tong0.png", "label": "Đặt tổng là 0" },
         { "id": "i1", "img": "images/i1.png", "label": "Đặt i là 1" },
         { "id": "soDau2", "img": "images/soDau2.png", "label": "Đặt số đầu tiên là 2" },
-        { "id": "lapDen10", "img": "images/lap10.png", "label": "Lặp 10 lần" },
+        { "id": "lap10", "img": "images/lap10.png", "label": "Lặp 10 lần" },
         { "id": "thempt", "img": "images/thempt.png", "label": "thêm số" },
         { "id": "tinhTong", "img": "images/tinhTong.png", "label": "Đặt tổng tăng thêm bởi số" },        
         { "id": "tangSoI2", "img": "images/tangSoI2.png", "label": "tăng số lên i * 2" },
