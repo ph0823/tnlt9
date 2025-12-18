@@ -2,7 +2,7 @@ let questions = [];
 let currentIndex = 0;
 let draggedId = null;
 let score = []; 
-// Mảng lưu trữ trạng thái các khối đã thả của từng câu: [ [id1, id2, null], [idA, null], ... ]
+// Mảng lưu trữ trạng thái các khối đã thả của từng câu: [ [id1, id2, null], ... ]
 let userAnswers = []; 
 
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbzBEriua8S5b3yzj3Rf-EuhFiS_yVwjVavxZ7ZJDhwCWspQYxgr9G6XnYY4hGB4NRtw/exec";
@@ -25,7 +25,7 @@ const timerEl = document.getElementById("timer");
 let timer = null;
 let timeLeft = 15 * 60; 
 
-// Khởi tạo STT 1-50
+// Tạo danh sách STT 1-50
 for (let i = 1; i <= 50; i++) {
   const opt = document.createElement("option");
   opt.value = i;
@@ -33,19 +33,26 @@ for (let i = 1; i <= 50; i++) {
   sttSelect.appendChild(opt);
 }
 
+// Hàm khởi tạo dữ liệu
 async function init() {
-  const res = await fetch("data/questions.json");
-  const data = await res.json();
+  try {
+    const res = await fetch("questions.json"); // Đảm bảo đúng đường dẫn file JSON của bạn
+    const data = await res.json();
+    questions = data.questions;
 
-  questions = data.questions;
-  // Khởi tạo mảng lưu câu trả lời trống cho mỗi câu hỏi
-  userAnswers = questions.map(q => new Array(q.dropSlots).fill(null));
-  score = new Array(questions.length).fill(0);
-  
-  currentIndex = 0;
-  loadQuestion();
-  attachButtons();
+    // Khởi tạo bộ nhớ tạm cho câu trả lời và điểm số
+    userAnswers = questions.map(q => new Array(q.dropSlots).fill(null));
+    score = new Array(questions.length).fill(0);
+    
+    currentIndex = 0;
+    loadQuestion();
+    attachButtons();
+  } catch (error) {
+    console.error("Lỗi tải dữ liệu câu hỏi:", error);
+  }
 }
+
+/* ================= QUẢN LÝ THÔNG TIN & TIMER ================*/
 
 function checkStudentInfo() {
   if (!classSelect.value) {
@@ -89,7 +96,7 @@ function startTimer() {
     if (timeLeft <= 0) {
       clearInterval(timer);
       autoCheck();
-      alert("⏰ Hết thời gian! Bài đã được nộp.");
+      alert("⏰ Hết thời gian! Bài đã được nộp tự động.");
       showFinalResult();
     }
   }, 1000);
@@ -101,7 +108,7 @@ function updateTimerText() {
   timerEl.textContent = `⏱ Thời gian còn lại: ${min}:${sec}`;
 }
 
-/* ================= QUẢN LÝ CÂU HỎI ================*/
+/* ================= RENDER GIAO DIỆN CÂU HỎI ================*/
 
 function loadQuestion() {
   const q = questions[currentIndex];
@@ -118,7 +125,7 @@ function loadQuestion() {
 
 function renderOptions(options) {
   optionsContainer.innerHTML = "";
-  // Trộn ngẫu nhiên nhưng phải giữ ID để kiểm tra trạng thái
+  // Xáo trộn ngẫu nhiên danh sách khối lệnh
   const shuffled = options.slice().sort(() => Math.random() - 0.5);
 
   shuffled.forEach(opt => {
@@ -132,8 +139,8 @@ function renderOptions(options) {
     img.alt = opt.label;
     box.appendChild(img);
 
-    // Kiểm tra xem khối này đã có trong userAnswers của câu hiện tại chưa
-    if (userAnswers[currentIndex].includes(opt.id.toString())) {
+    // Nếu khối này đã nằm trong vùng thả của câu hiện tại, làm mờ nó
+    if (userAnswers[currentIndex].includes(opt.id)) {
         box.style.opacity = "0.25";
         box.style.pointerEvents = "none";
     }
@@ -141,6 +148,7 @@ function renderOptions(options) {
     box.addEventListener("dragstart", e => {
       draggedId = opt.id;
       e.dataTransfer.setData("text/plain", opt.id);
+      // Làm mờ tạm thời khi đang kéo
       setTimeout(() => box.style.visibility = "hidden", 0);
     });
 
@@ -162,10 +170,10 @@ function renderDropzones(count) {
     slot.className = "slot";
     slot.dataset.index = i;
 
-    // Nếu đã có dữ liệu lưu trữ, vẽ lại khối lệnh trong ô
+    // Khôi phục khối lệnh nếu đã làm trước đó
     const savedId = currentSavedArr[i];
     if (savedId) {
-        const optionData = questions[currentIndex].options.find(o => o.id == savedId);
+        const optionData = questions[currentIndex].options.find(o => o.id === savedId);
         if (optionData) {
             const clone = document.createElement("div");
             clone.className = "option-in-slot";
@@ -188,21 +196,26 @@ function renderDropzones(count) {
       const original = document.querySelector(`.option[data-id='${id}']`);
       if (!original) return;
 
+      // KHẮC PHỤC LỖI HIỂN THỊ: Nhân bản và ép hiển thị
       const clone = original.cloneNode(true);
       clone.className = "option-in-slot";
       clone.draggable = false;
+      clone.style.visibility = "visible"; // Đảm bảo không bị kế thừa 'hidden'
+      clone.style.opacity = "1";
+      
       slot.appendChild(clone);
-
       slot.dataset.occupied = "1";
       slot.dataset.id = id;
+
+      // Cập nhật trạng thái khối gốc
       original.style.opacity = "0.25";
       original.style.pointerEvents = "none";
 
-      // Lưu vào bộ nhớ tạm
-      userAnswers[currentIndex][i] = id.toString();
+      // Lưu vào bộ nhớ tạm userAnswer
+      userAnswers[currentIndex][i] = id;
     });
 
-    // CLICK ĐỂ GỠ KHỐI LỆNH
+    // CLICK ĐỂ GỠ KHỐI LỆNH RA KHỎI VÙNG THẢ
     slot.addEventListener("click", () => {
         if (slot.dataset.occupied === "1") {
             const id = slot.dataset.id;
@@ -222,12 +235,15 @@ function renderDropzones(count) {
   }
 }
 
+/* ================= CHẤM ĐIỂM & GỬI KẾT QUẢ ================*/
+
 function autoCheck() {
   const q = questions[currentIndex];
   const currentResponse = userAnswers[currentIndex];
-  const correct = JSON.stringify(currentResponse) === JSON.stringify(q.answerOrder.map(String));
-  score[currentIndex] = correct ? 1 : 0;
-  return correct;
+  // So sánh mảng trả lời với mảng đáp án từ JSON
+  const isCorrect = JSON.stringify(currentResponse) === JSON.stringify(q.answerOrder);
+  score[currentIndex] = isCorrect ? 1 : 0;
+  return isCorrect;
 }
 
 function showFinalResult() {
@@ -249,10 +265,12 @@ function showFinalResult() {
     </div>
   `;
 
+  // Gửi dữ liệu về Google Sheets
   fetch(SHEET_URL, {
     method: "POST",
-    mode: "no-cors", // Thêm để tránh lỗi CORS khi gửi tới Apps Script
+    mode: "no-cors", 
     body: JSON.stringify({
+      sheetName: "KQ",
       class: classSelect.value,
       stt: sttSelect.value,
       name: nameInput.value,
@@ -264,8 +282,10 @@ function showFinalResult() {
   });
 }
 
+/* ================= ĐIỀU KHIỂN NÚT BẤM ================*/
+
 function nextQuestion() {
-  autoCheck(); 
+  autoCheck(); // Chấm câu hiện tại trước khi chuyển
   if (currentIndex < questions.length - 1) {
     currentIndex++;
     loadQuestion();
@@ -275,7 +295,7 @@ function nextQuestion() {
 }
 
 function prevQuestion() {
-  autoCheck(); // Lưu lại câu hiện tại trước khi quay lui
+  autoCheck(); // Lưu lại trạng thái câu hiện tại
   if (currentIndex > 0) {
     currentIndex--;
     loadQuestion();
@@ -286,9 +306,11 @@ function attachButtons() {
   nextBtn.onclick = nextQuestion;
   prevBtn.onclick = prevQuestion;
   resetBtn.onclick = () => {
+      // Xóa toàn bộ lựa chọn của câu hiện tại
       userAnswers[currentIndex] = new Array(questions[currentIndex].dropSlots).fill(null);
       loadQuestion();
   };
 }
 
+// Khởi động kiểm tra thông tin ban đầu
 checkStudentInfo();
