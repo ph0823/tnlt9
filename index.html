@@ -13,13 +13,15 @@
   }
 
   .card {
-    max-width:1100px;
+    max-width:1200px;
     margin:0 auto;
     background:white;
     padding:24px;
     border-radius:14px;
     box-shadow:0 8px 22px rgba(0,0,0,0.08);
   }
+
+  h3 { color:#0b3a66; margin-bottom:10px; }
 
   #questionTitle {
     font-size:22px;
@@ -29,64 +31,120 @@
   }
 
   .counter {
-    margin-top:4px;
     font-size:14px;
     color:#555;
   }
 
-  .layout {
+  /* ===== THÔNG TIN HS ===== */
+  .info-row {
     display:flex;
-    gap:30px;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+
+  input, select {
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:14px;
+  }
+
+  input { flex:1; }
+
+  #startBtn {
+    margin-top:14px;
+    display:none;
+    background:#007bff;
+    color:white;
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+  }
+
+  /* ===== TIMER ===== */
+  #timer {
+    font-weight:bold;
+    color:#c0392b;
+    margin:12px 0;
+    display:none;
+  }
+
+  /* ===== BÀI LÀM ===== */
+  .layout {
+    display:none;
+    gap:28px;
     margin-top:24px;
   }
 
   .left-col { width:45%; }
-  .options { display:flex; flex-direction:column; gap:12px; }
-  .option {
-    width:100%; height:80px; padding:6px;
-    display:flex; align-items:center; justify-content:center;
-    border-radius:10px;
-    background:white;
-    border:1px solid #dce4f4;
-    cursor:grab;
-    transition:0.15s;
-  }
-  .option:hover { transform:scale(1.02); }
-  .option img { max-width:100%; max-height:72px; pointer-events:none; }
-
   .right-col { width:55%; }
-  .dropzones { display:flex; flex-direction:column; gap:14px; }
+
+  .options {
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  /* 🔥 TỐI ƯU PNG KHỐI LỆNH */
+  .option {
+    min-height:90px;
+    padding:6px 10px;
+    border:1px solid #dce4f4;
+    border-radius:12px;
+    background:#f9fbff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:grab;
+    overflow:hidden;        /* chặn tràn */
+  }
+
+  .option img {
+    max-width:100%;         /* KHÓA chiều ngang */
+    max-height:80px;        /* KHÓA chiều cao */
+    object-fit:contain;     /* giữ tỉ lệ */
+    pointer-events:none;
+  }
+
+  /* ===== KHU THẢ ===== */
+  .dropzones {
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
 
   .slot {
-    width:100%; height:90px;
+    min-height:95px;
     border:2px dashed #bcd1ef;
-    border-radius:10px;
-    display:flex; align-items:center; justify-content:center;
+    border-radius:12px;
     background:#f8fbff;
-    transition:0.2s;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
   }
+
   .slot.hover {
     border-color:#3c82f6;
     background:#eaf2ff;
   }
 
-  .option-in-slot {
-    width:100% !important;
-    height:80px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:6px;
-  }
-
+  /* Khối đã thả */
   .option-in-slot img {
     max-width:100%;
-    max-height:72px;
+    max-height:85px;
+    object-fit:contain;
   }
 
+  /* ===== NÚT ===== */
   #controls {
+    display:none;
     margin-top:24px;
-    display:flex;
     gap:12px;
     align-items:center;
   }
@@ -96,49 +154,74 @@
     border-radius:8px;
     border:none;
     cursor:pointer;
-    font-size:14px;
     font-weight:bold;
   }
 
-  #resetBtn { background:#f0f3f6; border:1px solid #d8e1ee; color:#333; }
-  #prevBtn { background:#dcdff7; color:#333; }
+  #resetBtn { background:#f0f3f6; }
+  #prevBtn { background:#dcdff7; }
   #nextBtn { background:#28a745; color:white; }
 
   #result {
-    margin-left:12px;
-    font-weight:700;
-    min-width:200px;
+    margin-left:20px;
+    font-weight:bold;
   }
 </style>
 </head>
 
 <body>
-  <div class="card">
+<div class="card">
 
-    <div id="questionTitle"></div>
-    <div class="counter" id="counterText"></div>
+  <!-- ===== THÔNG TIN HỌC SINH ===== -->
+  <div id="studentInfo">
+    <h3>Thông tin học sinh</h3>
 
-    <div class="layout">
-      <div class="left-col">
-        <strong>Khối lệnh có sẵn:</strong>
-        <div id="options" class="options"></div>
-      </div>
+    <div class="info-row">
+      <select id="studentClass">
+        <option value="">-- Chọn lớp --</option>
+        <option>9.1</option><option>9.2</option><option>9.3</option>
+        <option>9.4</option><option>9.5</option>
+        <option>9.14</option><option>9.15</option><option>9.16</option>
+      </select>
 
-      <div class="right-col">
-        <strong>Khu vực thả đúng thứ tự:</strong>
-        <div id="dropzones" class="dropzones"></div>
-      </div>
+      <select id="studentStt" disabled>
+        <option value="">-- STT --</option>
+      </select>
+
+      <input id="studentName" type="text" placeholder="Họ và tên" disabled />
     </div>
 
-    <div id="controls">
-      <button id="prevBtn" style="display:none;">« Câu trước</button>
-      <button id="resetBtn">Làm lại</button>
-      <button id="nextBtn">Câu tiếp theo »</button>
-      <div id="result"></div>
-    </div>
-
+    <button id="startBtn">▶ Làm bài</button>
   </div>
 
-  <script src="app.js"></script>
+  <!-- ===== TIMER ===== -->
+  <div id="timer">⏱ Thời gian còn lại: 15:00</div>
+
+  <!-- ===== CÂU HỎI ===== -->
+  <div id="questionTitle"></div>
+  <div class="counter" id="counterText"></div>
+
+  <div class="layout">
+    <div class="left-col">
+      <strong>Khối lệnh có sẵn:</strong>
+      <div id="options" class="options"></div>
+    </div>
+
+    <div class="right-col">
+      <strong>Khu vực thả đúng thứ tự:</strong>
+      <div id="dropzones" class="dropzones"></div>
+    </div>
+  </div>
+
+  <div id="controls">
+    <button id="prevBtn" style="display:none;">« Câu trước</button>
+    <button id="resetBtn">Làm lại</button>
+    <button id="nextBtn">Câu tiếp theo »</button>
+    
+  </div>
+
+  <div id="result"></div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>

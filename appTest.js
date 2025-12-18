@@ -208,9 +208,14 @@ function renderDropzones(count) {
       const original = document.querySelector(`.option[data-id='${id}']`);
       if (!original) return;
 
+      // Tạo bản sao
       const clone = original.cloneNode(true);
       clone.className = "option-in-slot";
       clone.draggable = false;
+
+      // 🔥 QUAN TRỌNG: Ép bản sao phải hiện lên và có độ mờ 100%
+      clone.style.visibility = "visible"; 
+      clone.style.opacity = "1";
 
       slot.appendChild(clone);
       slot.dataset.occupied = "1";
