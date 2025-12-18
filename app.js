@@ -215,35 +215,101 @@ function checkAllQuestions() {
 /* ================= KẾT QUẢ ================= */
 
 function showFinalResult() {
-  const correct = score.filter(x => x).length;
   const total = questions.length;
+  let correct = 0;
+
+  // Chấm lại toàn bộ (phòng trường hợp chưa chấm)
+  questions.forEach((q, i) => {
+    if (isLogicCorrect(userAnswers[i], q.answerOrder)) {
+      score[i] = 1;
+      correct++;
+    } else {
+      score[i] = 0;
+    }
+  });
+
   const percent = Math.round((correct / total) * 100);
 
+  // Ẩn giao diện làm bài
   document.querySelector(".layout").style.display = "none";
   document.getElementById("controls").style.display = "none";
   timerEl.style.display = "none";
 
-  questionTitle.textContent = "🎉 KẾT QUẢ";
-  resultEl.innerHTML = `
-    <div style="padding:24px;background:#e8f3ff;border-radius:14px">
-      <h2>${correct}/${total} câu đúng</h2>
-      <p>Đạt ${percent}%</p>
+  // Tiêu đề
+  questionTitle.textContent = "🎉 KẾT QUẢ BÀI LÀM";
+
+  /* ================= GIAO DIỆN KẾT QUẢ ================= */
+
+  let html = `
+    <div style="
+      padding:24px;
+      background:#f0f7ff;
+      border-radius:16px;
+      box-shadow:0 8px 20px rgba(0,0,0,.08);
+      text-align:center;
+    ">
+      <h2 style="margin-bottom:8px">${correct} / ${total} câu đúng</h2>
+      <p style="font-size:20px;font-weight:bold">👉 Đạt ${percent}%</p>
     </div>
+
+    <hr style="margin:30px 0">
+
+    <h3>📘 Chi tiết từng câu</h3>
   `;
+
+  questions.forEach((q, i) => {
+    const isCorrect = score[i] === 1;
+    const user = userAnswers[i].filter(Boolean);
+
+    html += `
+      <div style="
+        margin-bottom:16px;
+        padding:16px;
+        border-radius:12px;
+        background:${isCorrect ? "#e7f8ec" : "#ffecec"};
+      ">
+        <b>Câu ${i + 1}:</b> ${isCorrect ? "✅ Đúng" : "❌ Sai"}
+        <div style="margin-top:6px">
+          <div><b>Bài làm:</b> ${user.join(" → ") || "(chưa làm)"}</div>
+          <div><b>Đáp án:</b> ${q.answerOrder.join(" → ")}</div>
+        </div>
+      </div>
+    `;
+  });
+
+  resultEl.innerHTML = html;
+
+  /* ================= GỬI DỮ LIỆU ================= */
+
+  const payload = {
+    sheetName: "OnTap25",
+    class: classSelect.value,
+    stt: sttSelect.value,
+    name: nameInput.value,
+    correct,
+    total,
+    percent,
+    timeLeft: timerEl.textContent,
+
+    // ⭐ THÊM PHẦN NÀY
+    questions: questions.map(q => ({
+      title: q.title
+    })),
+
+    answers: questions.map((q, i) => ({
+      user: userAnswers[i].filter(Boolean),
+      correct: q.answerOrder,
+      isCorrect: score[i] === 1
+    }))
+  };
 
   fetch(SHEET_URL, {
     method: "POST",
     mode: "no-cors",
-    body: JSON.stringify({
-      class: classSelect.value,
-      stt: sttSelect.value,
-      name: nameInput.value,
-      correct,
-      total,
-      percent
-    })
+    body: JSON.stringify(payload)
   });
-}
+
+
 
 /* ================= NÚT ================= */
 
