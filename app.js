@@ -35,17 +35,30 @@ for (let i = 1; i <= 50; i++) {
 }
 
 async function init() {
-  const res = await fetch("questions.json");
-  const data = await res.json();
-  questions = data.questions;
+  try {
+    const res = await fetch("questions.json");
+    if (!res.ok) throw new Error("Không load được questions.json");
 
-  userAnswers = questions.map(q => new Array(q.dropSlots).fill(null));
-  score = new Array(questions.length).fill(0);
+    const data = await res.json();
+    questions = data.questions || [];
 
-  currentIndex = 0;
-  loadQuestion();
-  attachButtons();
+    if (!questions.length) {
+      alert("❌ Không có dữ liệu câu hỏi");
+      return;
+    }
+
+    userAnswers = questions.map(q => new Array(q.dropSlots).fill(null));
+    score = new Array(questions.length).fill(0);
+
+    currentIndex = 0;
+    loadQuestion();
+    attachButtons();
+  } catch (err) {
+    console.error("LỖI LOAD JSON:", err);
+    alert("❌ Không tải được câu hỏi. Hãy kiểm tra questions.json hoặc cách chạy web.");
+  }
 }
+
 
 /* ================= TIMER ================= */
 
