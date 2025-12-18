@@ -36,7 +36,7 @@ for (let i = 1; i <= 50; i++) {
 
 async function init() {
   try {
-    const res = await fetch("questions.json");
+    const res = await fetch("data/questions.json");
     if (!res.ok) throw new Error("Không load được questions.json");
 
     const data = await res.json();
