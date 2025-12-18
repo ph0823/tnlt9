@@ -26,6 +26,7 @@ let timer = null;
 let timeLeft = 15 * 60;
 
 /* ================= KHỞI TẠO ================= */
+// Tạo danh sách STT 1-50
 
 for (let i = 1; i <= 50; i++) {
   const opt = document.createElement("option");
@@ -60,7 +61,41 @@ async function init() {
 }
 
 
-/* ================= TIMER ================= */
+/* ================= QUẢN LÝ THÔNG TIN & TIMER ================*/
+
+function checkStudentInfo() {
+  if (!classSelect.value) {
+    sttSelect.disabled = true;
+    nameInput.disabled = true;
+    startBtn.style.display = "none";
+    return;
+  }
+  sttSelect.disabled = false;
+  if (!sttSelect.value) {
+    nameInput.disabled = true;
+    startBtn.style.display = "none";
+    return;
+  }
+  nameInput.disabled = false;
+  if (nameInput.value.trim().length < 3) {
+    startBtn.style.display = "none";
+    return;
+  }
+  startBtn.style.display = "inline-block";
+}
+
+nameInput.addEventListener("input", checkStudentInfo);
+classSelect.addEventListener("change", checkStudentInfo);
+sttSelect.addEventListener("change", checkStudentInfo);
+
+startBtn.addEventListener("click", () => {
+  document.getElementById("studentInfo").style.display = "none";
+  document.querySelector(".layout").style.display = "flex";
+  document.getElementById("controls").style.display = "flex";
+  timerEl.style.display = "block";
+  init();
+  startTimer();
+});
 
 function startTimer() {
   updateTimer();
