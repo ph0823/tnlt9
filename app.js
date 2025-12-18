@@ -222,7 +222,6 @@ function showFinalResult() {
     method: "POST",
     mode: "no-cors",
     body: JSON.stringify({
-      sheetName: "KQ",
       class: classSelect.value,
       stt: sttSelect.value,
       name: nameInput.value,
@@ -258,6 +257,41 @@ function attachButtons() {
     loadQuestion();
   };
 }
+
+/* ================= THÔNG TIN HỌC SINH ================= */
+
+function checkStudentInfo() {
+  if (!classSelect.value) {
+    sttSelect.disabled = true;
+    nameInput.disabled = true;
+    startBtn.style.display = "none";
+    return;
+  }
+
+  sttSelect.disabled = false;
+
+  if (!sttSelect.value) {
+    nameInput.disabled = true;
+    startBtn.style.display = "none";
+    return;
+  }
+
+  nameInput.disabled = false;
+
+  if (nameInput.value.trim().length < 3) {
+    startBtn.style.display = "none";
+    return;
+  }
+
+  startBtn.style.display = "inline-block";
+}
+
+classSelect.addEventListener("change", checkStudentInfo);
+sttSelect.addEventListener("change", checkStudentInfo);
+nameInput.addEventListener("input", checkStudentInfo);
+
+// chạy kiểm tra ban đầu
+checkStudentInfo();
 
 /* ================= START ================= */
 
